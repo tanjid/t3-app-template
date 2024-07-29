@@ -1,18 +1,17 @@
 "use client";
-import React from "react";
 import { Heading } from "@/components/common/heading";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table/data-table";
-import { type EmployeeColumn } from "@/lib/validators";
+import { Separator } from "@/components/ui/separator";
+import { type Product } from "@prisma/client";
+import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { columns } from "./columns";
 
-interface EmployeeClientProps {
-  data: EmployeeColumn[];
+interface props {
+  data: Product[];
 }
-export const EmployeeClient = ({ data }: EmployeeClientProps) => {
+export const ProductClient = ({ data }: props) => {
   const router = useRouter();
 
   return (
@@ -24,7 +23,7 @@ export const EmployeeClient = ({ data }: EmployeeClientProps) => {
         />
         <Button
           onClick={() => {
-            router.push("/example/employees/new");
+            router.push("/product/products/new");
           }}
         >
           <Plus className="mr-2 h-4 w-4" /> Add New

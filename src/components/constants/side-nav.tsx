@@ -35,4 +35,34 @@ export const NavItems: NavItem[] = [
       },
     ],
   },
+  {
+    title: "Products",
+    icon: BookOpenCheck,
+    href: "/example",
+    color: "text-orange-500",
+    isChidren: true,
+    children: [
+      {
+        title: "Example-01",
+        icon: BookOpenCheck,
+        color: "text-red-500",
+        href: "/product/products",
+      },
+    ],
+  },
+  {
+    title: "Shop",
+    icon: BookOpenCheck,
+    href: "/example",
+    color: "text-orange-500",
+    isChidren: true,
+    children: [
+      {
+        title: "Shop List",
+        icon: BookOpenCheck,
+        color: "text-red-500",
+        href: "/shop/shops",
+      },
+    ],
+  },
 ];
