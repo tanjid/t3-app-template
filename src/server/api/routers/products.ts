@@ -9,6 +9,38 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { ProductFormSchema } from "@/components/page-component/product/product-form";
 
 export const productRouter = createTRPCRouter({
+  search: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    if (input.length < 2) return [];
+    const results = await ctx.prisma.product.findMany({
+      where: {
+        OR: [
+          {
+            sku: {
+              contains: input,
+              mode: "insensitive",
+            },
+          },
+          {
+            name: {
+              contains: input,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 5,
+    });
+
+    return results;
+  }),
+
+  // const formattedEmployee: EmployeeColumn[] = employee.map((item) => ({
+  //   id: item.id,
+  //   firstName: item.firstName,
+  //   lastName: item
   getAll: publicProcedure.query(async ({ ctx }) => {
     const results = await ctx.prisma.product.findMany({
       orderBy: {

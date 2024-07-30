@@ -24,15 +24,24 @@ export const VerificationTokenScalarFieldEnumSchema = z.enum(['identifier','toke
 
 export const EmployeeScalarFieldEnumSchema = z.enum(['id','firstName','lastName','gender','createAt','updateAt']);
 
-export const ProductScalarFieldEnumSchema = z.enum(['id','createdAt','updatedAt','name','sku','costPrice','salePrice','stockQty','pacakgingPrice','weight']);
+export const ProductScalarFieldEnumSchema = z.enum(['id','createdAt','updatedAt','name','sku','costPrice','salePrice','stockQty','pacakgingPrice','weight','imageUrl']);
 
 export const ShopScalarFieldEnumSchema = z.enum(['id','createdAt','updatedAt','name','address','mobileNumber']);
+
+export const OrderScalarFieldEnumSchema = z.enum(['id','createdAt','updatedAt','invoiceNumber','totalAmount','status','shopId']);
+
+export const OrderItemsScalarFieldEnumSchema = z.enum(['id','createdAt','updatedAt','qty','price','orderId','productId']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
+
+export const Order_StatusSchema = z.enum(['TO_SHIP','TO_HANDOVER','SHIPPING','RETURN_REFUND','CANCELLATION','FAILED_DELIVERY','DELIVERED']);
+
+export type Order_StatusType = `${z.infer<typeof Order_StatusSchema>}`
+
 /////////////////////////////////////////
 // MODELS
 /////////////////////////////////////////
@@ -197,6 +206,7 @@ export const ProductSchema = z.object({
   stockQty: z.number().int(),
   pacakgingPrice: z.number(),
   weight: z.number(),
+  imageUrl: z.string().nullish(),
 })
 
 export type Product = z.infer<typeof ProductSchema>
@@ -237,3 +247,58 @@ export const ShopOptionalDefaultsSchema = ShopSchema.merge(z.object({
 }))
 
 export type ShopOptionalDefaults = z.infer<typeof ShopOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// ORDER SCHEMA
+/////////////////////////////////////////
+
+export const OrderSchema = z.object({
+  status: Order_StatusSchema,
+  id: z.string().cuid(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  invoiceNumber: z.string(),
+  totalAmount: z.number().int(),
+  shopId: z.string(),
+})
+
+export type Order = z.infer<typeof OrderSchema>
+
+// ORDER OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const OrderOptionalDefaultsSchema = OrderSchema.merge(z.object({
+  status: Order_StatusSchema.optional(),
+  id: z.string().cuid().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+}))
+
+export type OrderOptionalDefaults = z.infer<typeof OrderOptionalDefaultsSchema>
+
+/////////////////////////////////////////
+// ORDER ITEMS SCHEMA
+/////////////////////////////////////////
+
+export const OrderItemsSchema = z.object({
+  id: z.string().cuid(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  qty: z.number().int(),
+  price: z.number().int(),
+  orderId: z.string(),
+  productId: z.string(),
+})
+
+export type OrderItems = z.infer<typeof OrderItemsSchema>
+
+// ORDER ITEMS OPTIONAL DEFAULTS SCHEMA
+//------------------------------------------------------
+
+export const OrderItemsOptionalDefaultsSchema = OrderItemsSchema.merge(z.object({
+  id: z.string().cuid().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+}))
+
+export type OrderItemsOptionalDefaults = z.infer<typeof OrderItemsOptionalDefaultsSchema>

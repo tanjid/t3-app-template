@@ -100,6 +100,8 @@ model Product {
     stockQty       Int
     pacakgingPrice Float
     weight         Float
+    imageUrl       String?
+    OrderItems     OrderItems[]
 }
 
 model Shop {
@@ -110,4 +112,44 @@ model Shop {
     name         String
     address      String
     mobileNumber String
+    Order        Order[]
+}
+
+model Order {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    invoiceNumber String       @unique
+    totalAmount   Int
+    status        Order_Status @default(TO_SHIP)
+
+    shop       Shop         @relation(fields: [shopId], references: [id])
+    OrderItems OrderItems[]
+    shopId     String
+}
+
+model OrderItems {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    qty   Int
+    price Int
+
+    order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    orderId String
+
+    product   Product @relation(fields: [productId], references: [id])
+    productId String
+}
+
+enum Order_Status {
+    TO_SHIP
+    TO_HANDOVER
+    SHIPPING
+    RETURN_REFUND
+    CANCELLATION
+    FAILED_DELIVERY
+    DELIVERED
 }
