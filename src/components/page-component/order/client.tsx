@@ -7,8 +7,9 @@ import { columns, type OrderListOrderType } from "./columns";
 
 interface props {
   data: OrderListOrderType[];
+  isLoading?: boolean;
 }
-export const OrderClient = ({ data }: props) => {
+export const OrderClient = ({ data, isLoading }: props) => {
   const router = useRouter();
 
   return (
@@ -27,6 +28,7 @@ export const OrderClient = ({ data }: props) => {
       <OrderStatusBadgeList />
       <Separator />
       <div>
+        {isLoading && <CustomLoading />}
         <DataTable columns={columns} data={data} />
       </div>
     </>
@@ -36,6 +38,7 @@ export const OrderClient = ({ data }: props) => {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetUrlQuery, useSetUrlQuery } from "@/hooks/getAndSetQuery";
 import { type Order_StatusType } from "prisma/generated/zod";
+import { CustomLoading } from "@/components/common/loading";
 export const OrderStatusList: Order_StatusType[] = [
   "TO_SHIP",
   "TO_HANDOVER",

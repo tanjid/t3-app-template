@@ -1,12 +1,12 @@
 import React from "react";
 import { api } from "@/utils/api";
-import { Loading } from "@/components/common/loading";
+import { CustomLoading } from "@/components/common/loading";
 import { EmployeeClient } from "@/components/page-component/example/employee/client";
 
 const Employees = () => {
   const { data, isLoading, isError, error } = api.employee.getAll.useQuery();
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <CustomLoading />;
 
   if (isError) return <div>Error: {error.message}</div>;
 

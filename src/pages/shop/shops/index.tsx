@@ -1,11 +1,11 @@
-import { Loading } from "@/components/common/loading";
+import { CustomLoading } from "@/components/common/loading";
 import { ShopClient } from "@/components/page-component/shop/client";
 import { api } from "@/utils/api";
 
 const Products = () => {
   const { data, isLoading, isError, error } = api.shop.getAll.useQuery();
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <CustomLoading />;
 
   if (isError) return <div>Error: {error.message}</div>;
 

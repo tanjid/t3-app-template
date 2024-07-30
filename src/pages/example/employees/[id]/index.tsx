@@ -1,4 +1,4 @@
-import { Loading } from "@/components/common/loading";
+import { CustomLoading } from "@/components/common/loading";
 import { EmployeeForm } from "@/components/page-component/example/employee/employee-form";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
@@ -9,13 +9,13 @@ const Employee = () => {
   const { id } = router.query;
 
   if (typeof id !== "string") {
-    return <Loading />;
+    return <CustomLoading />;
   }
 
   const { data: employee, isLoading } = api.employee.getById.useQuery(id);
 
   if (isLoading) {
-    return <Loading />;
+    return <CustomLoading />;
   }
 
   return (
