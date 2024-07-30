@@ -1,8 +1,4 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { api } from "@/utils/api";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -10,11 +6,22 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { api } from "@/utils/api";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
-import { Pencil, Trash2 } from "lucide-react";
 import { AlertModal } from "@/components/common/alert-modal";
-import { type EmployeeColumn } from "@/lib/validators";
-import { Order, Product } from "@prisma/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { type Order } from "@prisma/client";
+import { Pencil } from "lucide-react";
+import { OrderStatusList } from "./client";
 
 interface CellActionProps {
   data: Order;
@@ -74,16 +81,6 @@ export function CellAction({ data }: CellActionProps) {
     </div>
   );
 }
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { OrderStatusList } from "./client";
-import { UpdateIcon } from "@radix-ui/react-icons";
 function UpdateOrderStatus({ data }: CellActionProps) {
   const utils = api.useUtils();
   const updateOrderStatusMutation = api.order.updateOrderStatus.useMutation({
